@@ -19,7 +19,7 @@ task cleanSchema(type: Delete) {
 }
 
 task generateSchema(type: JavaExec) {
-   main = 'com.palantir.salt.atlas.SaltSchema'
+   main = project.atlasdb.schemas[0]
    classpath = sourceSets.main.runtimeClasspath
    dependsOn cleanSchema, classes
 }
