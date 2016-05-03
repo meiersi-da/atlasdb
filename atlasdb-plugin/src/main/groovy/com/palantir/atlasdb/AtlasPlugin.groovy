@@ -7,7 +7,7 @@ class AtlasPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.extensions.create("atlasdb", AtlasPluginExtension) 
-        project.apply(from: "${project.rootProject.projectDir}/buildSrc/atlasPlugin.gradle")
+        project.apply(from: "${project.projectDir}/plugin.gradle")
     }
 }
 
