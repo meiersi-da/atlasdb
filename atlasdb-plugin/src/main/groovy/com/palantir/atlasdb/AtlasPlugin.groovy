@@ -10,7 +10,3 @@ class AtlasPlugin implements Plugin<Project> {
         project.apply(from: "${project.projectDir}/plugin.gradle")
     }
 }
-
-class AtlasPluginExtension {
-    String[] schemas
-}
