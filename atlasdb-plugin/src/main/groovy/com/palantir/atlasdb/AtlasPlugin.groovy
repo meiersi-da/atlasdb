@@ -6,6 +6,8 @@ import org.gradle.api.Project;
 class AtlasPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
-        project.extensions.create("atlasdb", AtlasPluginExtension) 
+        project.extensions.create("atlasdb", AtlasPluginExtension)
+
+        project.tasks.create("generateSchemas", GenerateSchemasTask.class)
     }
 }

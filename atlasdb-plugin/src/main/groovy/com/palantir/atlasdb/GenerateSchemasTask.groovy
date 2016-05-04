@@ -1,8 +1,13 @@
 package com.palantir.atlasdb
 
-/**
- * Created by bullman on 5/4/16.
- */
-class GenerateSchemasTask {
-    String[] schemas
+import org.gradle.api.internal.AbstractTask
+import org.gradle.api.tasks.TaskAction
+
+class GenerateSchemasTask extends AbstractTask {
+
+    @TaskAction
+    public void generate() {
+        println "generating!"
+    }
+
 }
