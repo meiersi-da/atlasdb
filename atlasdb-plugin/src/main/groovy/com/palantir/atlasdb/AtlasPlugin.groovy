@@ -1,5 +1,6 @@
 package com.palantir.atlasdb
 
+import org.gradle.api.InvalidUserDataException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
@@ -19,6 +20,7 @@ class AtlasPlugin implements Plugin<Project> {
 
         setupGeneratedSourceSet(project)
         setupTaskDependencies(project)
+        setupJarDependencies(project)
     }
 
     void setupGeneratedSourceSet(Project project) {
@@ -61,6 +63,25 @@ class AtlasPlugin implements Plugin<Project> {
         project.jar {
             from project.sourceSets.generated.output
             dependsOn project.compileGeneratedJava
+        }
+    }
+
+    void setupJarDependencies(Project project) {
+        project.afterEvaluate {
+            AtlasPluginExtension ext = project.extensions.atlasdb
+            if (!ext.atlasVersion?.trim()) {
+                throw new InvalidUserDataException("You must define a atlasVersion in your build.gradle atlas block!")
+            }
+
+            project.dependencies {
+                compile "com.palantir.atlasdb:atlasdb-client:${ext.atlasVersion}"
+                compile "com.palantir.atlasdb:atlasdb-config:${ext.atlasVersion}"
+                compile "com.palantir.atlasdb:atlasdb-impl-shared:${ext.atlasVersion}"
+                compile "com.palantir.atlasdb:leader-election-impl:${ext.atlasVersion}"
+                compile "com.palantir.atlasdb:lock-impl:${ext.atlasVersion}"
+
+                generatedCompile project.files(project.sourceSets.main.output.classesDir)
+            }
         }
     }
 

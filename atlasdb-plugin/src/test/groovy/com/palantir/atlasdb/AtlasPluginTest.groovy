@@ -20,11 +20,13 @@ class AtlasPluginTest {
         project.plugins.apply CheckstylePlugin
         project.plugins.apply FindBugsPlugin
         project.plugins.apply AtlasPlugin
+        AtlasPluginExtension ext = project.extensions.findByName("atlasdb")
+        ext.atlasVersion = "1.0"
     }
 
     @Test
     public void test() {
-
+        project.evaluate();
     }
 
 }
