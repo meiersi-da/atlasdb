@@ -15,8 +15,8 @@ class AtlasPlugin implements Plugin<Project> {
         project.plugins.apply JavaPlugin
         project.extensions.create("atlasdb", AtlasPluginExtension)
 
-        project.tasks.create("generateSchemas", GenerateSchemasTask.class)
         project.tasks.create("cleanSchemas", CleanSchemasTask.class)
+        project.tasks.create("generateSchemas", GenerateSchemasTask.class).dependsOn(project.tasks.cleanSchemas, project.tasks.classes)
 
         setupGeneratedSourceSet(project)
         setupTaskDependencies(project)

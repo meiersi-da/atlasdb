@@ -7,7 +7,15 @@ class GenerateSchemasTask extends AbstractTask {
 
     @TaskAction
     public void generate() {
-        println "generating!"
+        project.afterEvaluate {
+            AtlasPluginExtension ext = project.extensions.atlasdb
+            ext.scheams.each {
+                def exit = project.javaexec {
+                    classpath project.sourceSets.main.runtimeClasspath
+                    main = "${it}"
+                }
+            }
+        }
     }
 
 }
