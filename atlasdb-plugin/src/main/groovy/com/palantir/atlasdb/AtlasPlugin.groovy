@@ -18,9 +18,20 @@ class AtlasPlugin implements Plugin<Project> {
         project.tasks.create("cleanSchemas", CleanSchemasTask.class)
         project.tasks.create("generateSchemas", GenerateSchemasTask.class).dependsOn(project.tasks.cleanSchemas, project.tasks.classes)
 
+        setupAtlasRepository(project)
         setupGeneratedSourceSet(project)
         setupTaskDependencies(project)
         setupJarDependencies(project)
+    }
+
+    void setupAtlasRepository(Project project) {
+        project.repositories {
+            mavenCentral()
+            maven {
+                url "http://dl.bintray.com/palantir/releases/"
+            }
+        }
+
     }
 
     void setupGeneratedSourceSet(Project project) {
