@@ -10,6 +10,9 @@ import org.gradle.plugins.ide.eclipse.EclipsePlugin
 import org.gradle.plugins.ide.idea.IdeaPlugin
 
 class AtlasPlugin implements Plugin<Project> {
+
+    public static final String GENERATED_DIR = 'src/generated/java'
+
     @Override
     void apply(Project project) {
         project.plugins.apply JavaPlugin
@@ -42,8 +45,8 @@ class AtlasPlugin implements Plugin<Project> {
         project.plugins.withType(IdeaPlugin) {
             project.idea {
                 module {
-                    sourceDirs += project.file('src/generated/java')
-                    generatedSourceDirs += project.file('src/generated/java')
+                    sourceDirs += project.file(GENERATED_DIR)
+                    generatedSourceDirs += project.file(GENERATED_DIR)
                 }
             }
         }
@@ -81,7 +84,7 @@ class AtlasPlugin implements Plugin<Project> {
         project.afterEvaluate {
             AtlasPluginExtension ext = project.extensions.atlasdb
             if (!ext.atlasVersion?.trim()) {
-                throw new InvalidUserDataException("You must define a atlasVersion in your build.gradle atlas block!")
+                throw new InvalidUserDataException("You must define a atlasVersion in your project or subproject's build.gradle atlasdb block!")
             }
 
             project.dependencies {

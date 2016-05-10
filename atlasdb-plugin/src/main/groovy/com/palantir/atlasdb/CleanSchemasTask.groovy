@@ -1,13 +1,19 @@
 package com.palantir.atlasdb
 
-import org.gradle.api.tasks.Delete
+import org.gradle.api.internal.AbstractTask
 import org.gradle.api.tasks.TaskAction
 
-class CleanSchemasTask extends Delete {
+class CleanSchemasTask extends AbstractTask {
 
     @TaskAction
     public void clean() {
-        delete "src/generated/java"
+        AtlasPluginExtension ext = project.extensions.atlasdb
+
+        def workingDir = project.projectDir
+        def toDelete = new File(workingDir, AtlasPlugin.GENERATED_DIR)
+
+        project.delete toDelete
+
     }
 
 }

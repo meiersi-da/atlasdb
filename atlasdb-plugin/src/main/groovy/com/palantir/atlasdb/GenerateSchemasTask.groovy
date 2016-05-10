@@ -10,8 +10,9 @@ class GenerateSchemasTask extends AbstractTask {
         AtlasPluginExtension ext = project.extensions.atlasdb
         ext.schemas.each { schema ->
             def exit = project.javaexec {
-                classpath project.sourceSets.main.runtimeClasspath
                 main = schema
+                classpath = project.sourceSets.main.runtimeClasspath
+                workingDir = project.projectDir
             }
         }
     }

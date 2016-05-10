@@ -9,6 +9,7 @@ import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Before
 import org.junit.Test
 
+import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
 
 class AtlasPluginTest {
@@ -41,12 +42,12 @@ class AtlasPluginTest {
         File rootDir = project.sourceSets.main.java.srcDirs.first();
         File testFile = new File(rootDir, TEST_FILE_PACKAGE.replace('.', '/') + '/' + TEST_FILE_NAME);
         testFile.getParentFile().mkdirs()
-        testFile.write(sprintf(testFileContents(), TEST_FILE_PACKAGE, GEN_FILE_NAME))
+        testFile.write(testFileContents(TEST_FILE_PACKAGE, GEN_FILE_NAME))
     }
 
-    static String testFileContents() {
-        return '''
-            package %s;
+    static String testFileContents(String packageName, String generatedFileName) {
+        return """
+            package ${packageName};
 
             import java.io.File;
             import java.io.FileWriter;
@@ -54,23 +55,34 @@ class AtlasPluginTest {
 
             public class TestSchema {
                 public static void main(String[] args) throws IOException {
-                    FileWriter fileout = new FileWriter(new File("%s"));
+                    FileWriter fileout = new FileWriter(new File("${generatedFileName}"));
                     fileout.write("This is a test file!");
                 }
             }
-        '''
+        """
     }
 
     @Test
-    public void basicFunctionality() {
+    public void generateSchemas() {
         File rootDir = project.projectDir
         File generatedFile = new File(rootDir, GEN_FILE_NAME)
 
         project.tasks.generateSchemas.execute()
         assertTrue generatedFile.exists()
+    }
 
-//        project.tasks.cleanSchemas.execute()
-//        assertFalse generatedFile.exists()
+    @Test
+    public void cleanSchemas() {
+        File rootDir = project.projectDir
+        File generatedSourceDir = new File(rootDir, "src/generated/java")
+        File generatedFile = new File(generatedSourceDir, GEN_FILE_NAME)
+        generatedFile.mkdirs()
+        generatedFile.createNewFile()
+        assertTrue generatedFile.exists()
+
+        project.tasks.cleanSchemas.execute()
+
+        assertFalse generatedFile.exists()
     }
 
 }
