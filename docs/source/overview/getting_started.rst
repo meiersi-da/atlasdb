@@ -61,6 +61,8 @@ force you to use the java client to get the benefits of atlas. See the
 Atlas Gradle plugin
 ===================
 
+.. _atlas_gradle_plugin:
+
 We provide a Gradle plugin to run schema generation. The following snippet
 in ``build.gradle`` will add the ``generateSchemas`` and ``cleanSchemas``
 tasks, which ``check`` and ``clean`` respectively depend on.

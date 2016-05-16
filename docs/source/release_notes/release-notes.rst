@@ -36,4 +36,8 @@ v0.4.1
     *   - |improved|
         - We now have continuously updated release notes
 
+    *   - |improved|
+        - We now have a :ref:`Gradle plugin <atlas_gradle_plugin>` to automate
+          schema generation.
+
 .. <<<<------------------------------------------------------------------------------------------------------------->>>>
