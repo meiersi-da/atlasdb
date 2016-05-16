@@ -56,3 +56,26 @@ done by running AtlasDbServer in the atlasdb-server project.
 This is dropwizard service that runs all the needed parts and doesn't
 force you to use the java client to get the benefits of atlas. See the
 :ref:`atlas-server-api` for more details.
+
+
+Atlas Gradle plugin
+===================
+
+We provide a Gradle plugin to run schema generation. The following snippet
+in ``build.gradle`` will add the ``generateSchemas`` and ``cleanSchemas``
+tasks, which ``check`` and ``clean`` respectively depend on.
+
+.. code:: groovy
+
+    buildscript {
+        dependencies {
+            classpath "com.palantir.atlasdb:atlasdb-plugin:${atlasVersion
+        }
+    }
+
+    apply plugin: 'com.palantir.atlasdb'
+
+    atlasdb {
+        atlasVersion '0.3.3'
+        schemas = ["myproject.atlas.MyProjectSchema"]
+    }
